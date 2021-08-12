@@ -11,7 +11,6 @@ import com.ishwari.accountapi.model.CustomerAccountInformation;
 
 public interface AccountService {
 
-
     /**
      * Return all the customer's {@link Account}
      *
@@ -54,5 +53,14 @@ public interface AccountService {
      * @return an Optional of {@link Account}
      */
     Optional<Account> createNewAccountByCustomer(@NotNull Long customerID, double initialCredit);
+    
+    /**
+     * Return a {@link CustomerAccountInformation} class that wrap all the information
+     * about the customer and customer's accounts for the given customer ID.
+     *
+     * @param customerID
+     * @return an Optional of {@link CustomerAccountInformation}
+     */
+    Optional<CustomerAccountInformation> getCustomerAccountInfo(@NotNull Long customerID);
 
 }

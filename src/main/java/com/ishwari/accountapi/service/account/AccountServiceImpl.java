@@ -1,7 +1,9 @@
 package com.ishwari.accountapi.service.account;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,9 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ishwari.accountapi.entity.Account;
+import com.ishwari.accountapi.entity.Customer;
 import com.ishwari.accountapi.entity.Transaction;
 import com.ishwari.accountapi.model.AccountInformation;
+import com.ishwari.accountapi.model.CustomerAccountInformation;
 import com.ishwari.accountapi.repository.AccountRepository;
+import com.ishwari.accountapi.service.customer.CustomerService;
 import com.ishwari.accountapi.service.transaction.TransactionService;
 
 @Service
@@ -28,6 +33,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private CustomerService customerService;
+    
     @Override
     public List<Account> findByCustomer(@NotNull Long customerID) {
         return accountRepository.findByCustomer(customerID);
@@ -74,4 +82,29 @@ public class AccountServiceImpl implements AccountService {
         return Optional.of(newAccount);
     }
 
+    @Override
+    public Optional<CustomerAccountInformation> getCustomerAccountInfo(@NotNull Long customerID) {
+        logger.info("Account-getCustomerAccountInfo: get customer informations");
+        Optional<Customer> customerOptional = customerService.findByID(customerID);
+        var customerAccountInformation = new CustomerAccountInformation();
+        customerAccountInformation.setCustomerName(customerOptional.get().getName());
+        customerAccountInformation.setCustomerSurname(customerOptional.get().getSurname());
+
+        logger.info("Account-getCustomerAccountInfo: get all the customer's account");
+        List<Account> lstAccount = findByCustomer(customerID);
+
+        if(!lstAccount.isEmpty()) {
+            logger.info("Account-getCustomerAccountInfo: found account's customer, retrieve account information");
+            List<AccountInformation> lstAccInformation = lstAccount.stream()
+                      .map(account -> new AccountInformation(account))
+                      .collect(Collectors.toList());
+            lstAccInformation.stream().forEach(accInfo -> accInfo.setTransactionList(transactionService.findByAccount(accInfo.getAccountNumber())));
+            customerAccountInformation.setAccounts(lstAccInformation);
+        }else{
+            logger.info("Account-getCustomerAccountInfo: no accounts found for the customer");
+            customerAccountInformation.setAccounts(Collections.emptyList());
+        }
+
+        return Optional.of(customerAccountInformation);
+    }
 }

@@ -33,14 +33,14 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	@Transactional
 	public Optional<Transaction> createTransaction(@NotNull Long accountID, double amount) {
+		
 		logger.info("Transaction-createTransaction: Create a transaction for the given account with credit passed");
 		var transaction = new Transaction(accountID, amount);
-		transaction = transactionRepository.save(transaction);
-
-		if (transaction == null) {
-			throw new TransactionException("Error with transaction creation");
-		}
-
+		   ofNullable(transaction).ifPresentOrElse(trans -> transactionRepository.save(transaction),
+		                () -> {
+		                    throw new TransactionException("Error with transaction creation");
+		                });
+			
 		return Optional.of(transaction);
 	}
 
