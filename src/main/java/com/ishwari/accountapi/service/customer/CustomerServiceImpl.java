@@ -14,7 +14,11 @@ public class CustomerServiceImpl implements CustomerService {
 		@Autowired
 	    private CustomerRepository customerRepository;
 
-	    @Override
+	    public CustomerServiceImpl(CustomerRepository customerRepository2) {
+	    	this.customerRepository = customerRepository2;
+		}
+
+		@Override
 	    public Optional<Customer> findByID(Long customerID) {
 	        return customerRepository.findById(customerID);
 	    }
@@ -23,6 +27,4 @@ public class CustomerServiceImpl implements CustomerService {
 	    public boolean checkCustomerExists(Long customerID) {
 	        return customerRepository.existsById(customerID);
 	    }
-	
-
 }
