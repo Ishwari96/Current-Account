@@ -20,22 +20,6 @@ public interface AccountService {
     List<Account> findByCustomer(@NotNull Long customerID);
 
     /**
-     * Check if an account with the given ID exists.
-     *
-     * @param accountID
-     * @return
-     */
-    boolean checkAccountExists(@NotNull Long accountID);
-
-    /**
-     * Save an account and retunrn it
-     *
-     * @param account
-     * @return Saved {@link Account}
-     */
-    Account saveAccount(@NotNull Account account);
-
-    /**
      * Return the {@link AccountInformation} for the given account ID.
      *
      * @param accountID

@@ -54,17 +54,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public boolean checkAccountExists(@NotNull Long accountID) {
-        return accountRepository.existsById(accountID);
-    }
-
-    @Override
-    @Transactional
-    public Account saveAccount(@NotNull Account account) {
-        return accountRepository.save(account);
-    }
-
-    @Override
     public Optional<AccountInformation> findInformationByID(@NotNull Long accountID) {
         logger.info("Account-findInformationByID: check if the account exists");
         Optional<Account> accountOptional = accountRepository.findById(accountID);

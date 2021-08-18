@@ -1,14 +1,12 @@
 package com.ishwari.accountapi.controller.advice;
 
+import java.time.Instant;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.time.Instant;
 
 @Builder
 @Getter
-@Setter
 public class ExceptionData {
 
     private Instant exceptionTime;

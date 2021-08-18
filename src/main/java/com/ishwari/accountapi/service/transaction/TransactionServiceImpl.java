@@ -1,7 +1,5 @@
 package com.ishwari.accountapi.service.transaction;
 
-import static java.util.Optional.ofNullable;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -25,23 +23,25 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 
+	public TransactionServiceImpl(TransactionRepository transactionRepository) {
+		this.transactionRepository = transactionRepository;
+	}
+
 	@Override
 	public List<Transaction> findByAccount(@NotNull Long accountID) {
 		return transactionRepository.findByAccount(accountID);
 	}
 
 	@Override
-	@Transactional
-	public Optional<Transaction> createTransaction(@NotNull Long accountID, double amount) {
-		
-		logger.info("Transaction-createTransaction: Create a transaction for the given account with credit passed");
-		var transaction = new Transaction(accountID, amount);
-		   ofNullable(transaction).ifPresentOrElse(trans -> transactionRepository.save(transaction),
-		                () -> {
-		                    throw new TransactionException("Error with transaction creation");
-		                });
-			
-		return Optional.of(transaction);
-	}
+    @Transactional
+    public Optional<Transaction> createTransaction(@NotNull Long accountID, double quantity) {
+        logger.info("Transaction-createTransaction: Create a transaction for the given account with credit passed");
+        var tran = new Transaction(accountID, quantity);
+        tran = transactionRepository.save(tran);
+        if(tran == null){
+            throw new TransactionException("Error with transaction creation");
+        }
+        return Optional.of(tran);
+    }
 
 }

@@ -20,7 +20,7 @@ import com.ishwari.accountapi.exception.TransactionException;
 @ControllerAdvice
 public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccountControllerAdvice.class);
+    private static final Logger log = LoggerFactory.getLogger(AccountControllerAdvice.class);
 
     /**
      * Handle AccountNotFoundException exception from web service controller methods.
@@ -31,8 +31,8 @@ public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<Object> handleAccountNotFoundException(final AccountNotFoundException ex, final WebRequest request) {
-        logger.info("RestExceptionHandler-handleAccountNotFoundException: build custom exception data");
-        logger.info("- AccountNotFoundException: ", ex);
+        log.info("RestExceptionHandler-handleAccountNotFoundException: build custom exception data");
+        log.info("- AccountNotFoundException: ", ex);
         final ExceptionData detail = ExceptionData.builder()
                 .exceptionClassType(AccountNotFoundException.class.getName())
                 .exceptionMessage(ex.getMessage())
@@ -53,8 +53,8 @@ public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<Object> handleCustomerNotFoundException(final CustomerNotFoundException ex, final WebRequest request) {
-        logger.info("RestExceptionHandler-handleCustomerNotFoundException: build custom exception data");
-        logger.info("- CustomerNotFoundException: ", ex);
+        log.info("RestExceptionHandler-handleCustomerNotFoundException: build custom exception data");
+        log.info("- CustomerNotFoundException: ", ex);
         final ExceptionData detail = ExceptionData.builder()
                 .exceptionClassType(CustomerNotFoundException.class.getName())
                 .exceptionMessage(ex.getMessage())
@@ -75,8 +75,8 @@ public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(AccountException.class)
     public ResponseEntity<Object> handleAccountException(final AccountException ex, final WebRequest request) {
-        logger.info("RestExceptionHandler-handleAccountException: build custom exception data");
-        logger.info("- AccountException: ", ex);
+        log.info("RestExceptionHandler-handleAccountException: build custom exception data");
+        log.info("- AccountException: ", ex);
         final ExceptionData detail = ExceptionData.builder()
                 .exceptionClassType(AccountException.class.getName())
                 .exceptionMessage(ex.getMessage())
@@ -97,8 +97,8 @@ public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(TransactionException.class)
     public ResponseEntity<Object> handleTransactionException(final TransactionException ex, final WebRequest request) {
-        logger.info("RestExceptionHandler-handleTransactionException: build custom exception data");
-        logger.info("- TransactionException: ", ex);
+        log.info("RestExceptionHandler-handleTransactionException: build custom exception data");
+        log.info("- TransactionException: ", ex);
         final ExceptionData detail = ExceptionData.builder()
                 .exceptionClassType(TransactionException.class.getName())
                 .exceptionMessage(ex.getMessage())
@@ -119,8 +119,8 @@ public class AccountControllerAdvice extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGeneralException(final Exception ex, final WebRequest request) {
-        logger.info("RestExceptionHandler-handleGeneralException: build custom exception data");
-        logger.error("- Exception: ", ex);
+        log.info("RestExceptionHandler-handleGeneralException: build custom exception data");
+        log.error("- Exception: ", ex);
         final ExceptionData detail = ExceptionData.builder()
                 .exceptionClassType(TransactionException.class.getName())
                 .exceptionMessage(ex.getMessage())
