@@ -7,12 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CurrentAccountApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	void contextLoads() {
 
 	}
 
 	@Test
-	public void ApplicationStartTest() {
+	void ApplicationStartTest() {
 		CurrentAccountApplication.main(new String[] {});
 	}
 
